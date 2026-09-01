@@ -45,3 +45,4 @@ ThreadLocal stores one WebDriver per thread.
 In testng.xml:
 thread-count="1" -> sequential
 thread-count="2" -> two test methods can run simultaneously
+Jenkins Poll SCM Test 
