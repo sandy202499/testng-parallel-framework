@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 public final class DriverFactory {
 
@@ -15,7 +16,14 @@ public final class DriverFactory {
         switch (browser.toLowerCase()) {
 
             case "chrome":
-                return new ChromeDriver();
+            	ChromeOptions options = new ChromeOptions();
+
+            	if (Boolean.parseBoolean(System.getProperty("headless", "false")))
+            	{
+            	    options.addArguments("--headless=new");
+            	}
+
+            	return new ChromeDriver(options);
 
             case "firefox":
                 return new FirefoxDriver();
