@@ -11,6 +11,16 @@ import org.testng.annotations.Parameters;
 
 import java.time.Duration;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.ITestResult;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 public class BaseTest {
 
     @Parameters("browser")
@@ -38,11 +48,28 @@ public class BaseTest {
     }
 
     @AfterMethod(alwaysRun = true)
-    public void tearDown() {
+    public void tearDown(ITestResult result) {
 
-    /*    System.out.println(
-                "TEARDOWN -> Thread: "
-                + Thread.currentThread().getId());		*/
+        if (result.getStatus() == ITestResult.FAILURE) {
+
+            TakesScreenshot screenshot =
+                    (TakesScreenshot) DriverManager.getDriver();
+
+            File source =
+                    screenshot.getScreenshotAs(OutputType.FILE);
+
+            Path destination = Paths.get(
+                    "screenshots",
+                    result.getName() + ".png"
+            );
+
+            try {
+                Files.createDirectories(destination.getParent());
+                Files.copy(source.toPath(), destination);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         DriverManager.quitDriver();
     }

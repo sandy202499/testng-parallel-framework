@@ -25,10 +25,11 @@ public class LoginTests extends BaseTest {
 
         ProductsPage productsPage = new ProductsPage();
 
-        Assert.assertEquals(
-                productsPage.getPageTitle(),
-                "Products");
-
+        Assert.assertEquals(productsPage.getPageTitle(),"Products");
+        
+     // For testing screenshot capture on failure:
+     // Assert.assertEquals(productsPage.getPageTitle(), "Wrong Title");
+        
         System.out.println(
                 "validLoginTest URL -> "
                 + DriverManager.getDriver().getCurrentUrl());
